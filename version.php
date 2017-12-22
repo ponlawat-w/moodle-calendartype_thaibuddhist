@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017122001; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2017122200; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2016051900; // Requires this Moodle version.
 $plugin->release   = '1.0';
 $plugin->component = 'calendartype_thaibuddhist'; // Full name of the plugin (used for diagnostics).

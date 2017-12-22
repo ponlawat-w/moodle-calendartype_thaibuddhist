@@ -30,6 +30,7 @@ $string['shortmonths'] = '';
 $string['days'] = '';
 $string['shortdays'] = '';
 
+$string['time'] = '{$a}';
 $string['year'] = '{$a}BE';
 
 $string['setting_rewritethaiformat'] = 'Overwrite format in Thai language';

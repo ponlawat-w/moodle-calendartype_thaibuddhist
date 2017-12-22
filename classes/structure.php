@@ -33,17 +33,29 @@ class structure extends type_base {
 
     public function __construct() {
         $stringmanager = get_string_manager();
-        if(!self::$months && $stringmanager->string_exists('months', 'calendartype_thaibuddhist') && get_string('months', 'calendartype_thaibuddhist') != '') {
-            self::$months = explode(';', get_string('months', 'calendartype_thaibuddhist'));
+        if(!self::$months && $stringmanager->string_exists('months', 'calendartype_thaibuddhist')) {
+            $months = explode(';', get_string('months', 'calendartype_thaibuddhist'));
+            if(count($months) == 13) {
+                self::$months = $months;
+            }
         }
-        if(!self::$shortmonths && $stringmanager->string_exists('shortmonths', 'calendartype_thaibuddhist') && get_string('shortmonths', 'calendartype_thaibuddhist') != '') {
-            self::$shortmonths = explode(';', get_string('shortmonths', 'calendartype_thaibuddhist'));
+        if(!self::$shortmonths && $stringmanager->string_exists('shortmonths', 'calendartype_thaibuddhist')) {
+            $shortmonths = explode(';', get_string('shortmonths', 'calendartype_thaibuddhist'));
+            if(count($shortmonths) == 13) {
+                self::$shortmonths = $shortmonths;
+            }
         }
-        if(!self::$days && $stringmanager->string_exists('days', 'calendartype_thaibuddhist') && get_string('days', 'calendartype_thaibuddhist') != '') {
-            self::$days = explode(';', get_string('days', 'calendartype_thaibuddhist'));
+        if(!self::$days && $stringmanager->string_exists('days', 'calendartype_thaibuddhist')) {
+            $days = explode(';', get_string('days', 'calendartype_thaibuddhist'));
+            if(count($days) == 7) {
+                self::$days = $days;
+            }
         }
-        if(!self::$shortdays && $stringmanager->string_exists('shortdays', 'calendartype_thaibuddhist') && get_string('shortdays', 'calendartype_thaibuddhist') != '') {
-            self::$shortdays = explode(';', get_string('shortdays', 'calendartype_thaibuddhist'));
+        if(!self::$shortdays && $stringmanager->string_exists('shortdays', 'calendartype_thaibuddhist')) {
+            $shortdays = explode(';', get_string('shortdays', 'calendartype_thaibuddhist'));
+            if(count($shortdays) == 7) {
+                self::$shortdays = $shortdays;
+            }
         }
     }
 
@@ -93,7 +105,7 @@ class structure extends type_base {
         $date->setTimezone(new \DateTimeZone('UTC'));
         for ($i = 1; $i <= 12; $i++) {
             $date->setDate(2000, $i, 15);
-            $months[$i] = userdate($date->getTimestamp(), '%B', 'UTC');
+            $months[$i] = self::$months ? self::$months[$i] : userdate($date->getTimestamp(), '%B', 'UTC');
         }
 
         return $months;
@@ -133,9 +145,11 @@ class structure extends type_base {
             $maxyear = $this->get_max_year();
         }
 
+        $displaybe = get_config('calendartype_thaibuddhist', 'displaybe');
+
         $years = array();
         for ($i = $minyear; $i <= $maxyear; $i++) {
-            $years[$i] = $i;
+            $years[$i] = $displaybe ? get_string('year', 'calendartype_thaibuddhist', $i) : $i;
         }
 
         return $years;
@@ -324,17 +338,25 @@ class structure extends type_base {
 
         if (empty($format)) {
             $format = get_string('strftimedaydatetime', 'langconfig');
+
+            if(get_config('calendartype_thaibuddhist', 'force24h')) {
+                $format = str_replace('%I:%M', '%H:%M', $format);
+                $format = str_replace('%p', '', $format);
+            }
         }
 
         if(get_config('calendartype_thaibuddhist', 'rewritethaiformat') && current_language() == 'th') {
-            $format = str_replace(',', '', $format);
+            $format = str_replace('%A,', '', $format);
+            $format = str_replace('%a,', '', $format);
             $format = str_replace('%d%b', '%d %b', $format);
             $format = str_replace('%d%B', '%d %B', $format);
-        }
 
-        if(get_config('calendartype_thaibuddhist', 'force24h')) {
-            $format = str_replace('%I:%M', '%H:%M', $format);
-            $format = str_replace('%p', '', $format);
+            if(strpos($format, '%H:%M:%S')) {
+                $format = str_replace('%H:%M:%S', get_string('time', 'calendartype_thaibuddhist', '%H:%M:%S'), $format);
+            }
+            else {
+                $format = str_replace('%H:%M', get_string('time', 'calendartype_thaibuddhist', '%H:%M'), $format);
+            }
         }
 
         if(self::$months) {
