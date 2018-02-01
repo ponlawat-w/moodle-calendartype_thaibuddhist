@@ -396,10 +396,9 @@ class structure extends type_base {
             $format = str_replace('%d%b', '%d %b', $format);
             $format = str_replace('%d%B', '%d %B', $format);
 
-            if(strpos($format, '%H:%M:%S')) {
+            if (strpos($format, '%H:%M:%S')) {
                 $format = str_replace('%H:%M:%S', get_string('time', 'calendartype_thaibuddhist', '%H:%M:%S'), $format);
-            }
-            else {
+            } else {
                 $format = str_replace('%H:%M', get_string('time', 'calendartype_thaibuddhist', '%H:%M'), $format);
             }
         }
