@@ -28,3 +28,4 @@ $plugin->version   = 2018020100; // The current plugin version (Date: YYYYMMDDXX
 $plugin->requires  = 2016051900; // Requires this Moodle version.
 $plugin->release   = '1.1';
 $plugin->component = 'calendartype_thaibuddhist'; // Full name of the plugin (used for diagnostics).
+$plugin->maturity = MATURITY_STABLE;
