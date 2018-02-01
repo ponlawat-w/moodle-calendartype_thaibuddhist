@@ -25,7 +25,7 @@
 namespace calendartype_thaibuddhist;
 use core_calendar\type_base;
 
-defined(MOODLE_INTERNAL) || die();
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Thai Buddhist Calendar
