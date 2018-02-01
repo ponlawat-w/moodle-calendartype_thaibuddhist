@@ -14,8 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Thai Buddhist Calendar
+ *
+ * @package calendartype_thaibuddhist
+ * @copyright 2017 Ponlawat Weerapanpisit (ponlawat_w@cmu.ac.th)
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace calendartype_thaibuddhist;
 use core_calendar\type_base;
+
+defined(MOODLE_INTERNAL) || die();
 
 /**
  * Thai Buddhist Calendar
@@ -26,34 +36,69 @@ use core_calendar\type_base;
  */
 class structure extends type_base {
 
+    /**
+     * Month names
+     * string "months" is read and extracted to array by delimiter ";"
+     * index 0 has to be left blank, 1 is January and so on
+     *
+     * @var array|bool
+     */
     private static $months = false;
+
+    /**
+     * Month short names
+     * string "shortmonths" is read and extracted to array by delimiter ";"
+     * index 0 has to be left blank, 1 is January and so on
+     *
+     * @var array|bool
+     */
     private static $shortmonths = false;
+
+    /**
+     * Day names
+     * string "days" is read and extracted to array by delimiter ";"
+     * index 0 is Sunday and so on
+     *
+     * @var array|bool
+     */
     private static $days = false;
+
+    /**
+     * Day short names
+     * string "shortdays" is read and extracted to array by delimiter ";"
+     * index 0 is Sunday and so on
+     *
+     * @var array|bool
+     */
     private static $shortdays = false;
 
+    /**
+     * structure constructor.
+     * @throws \coding_exception
+     */
     public function __construct() {
         $stringmanager = get_string_manager();
-        if(!self::$months && $stringmanager->string_exists('months', 'calendartype_thaibuddhist')) {
+        if (!self::$months && $stringmanager->string_exists('months', 'calendartype_thaibuddhist')) {
             $months = explode(';', get_string('months', 'calendartype_thaibuddhist'));
-            if(count($months) == 13) {
+            if (count($months) == 13) {
                 self::$months = $months;
             }
         }
-        if(!self::$shortmonths && $stringmanager->string_exists('shortmonths', 'calendartype_thaibuddhist')) {
+        if (!self::$shortmonths && $stringmanager->string_exists('shortmonths', 'calendartype_thaibuddhist')) {
             $shortmonths = explode(';', get_string('shortmonths', 'calendartype_thaibuddhist'));
-            if(count($shortmonths) == 13) {
+            if (count($shortmonths) == 13) {
                 self::$shortmonths = $shortmonths;
             }
         }
-        if(!self::$days && $stringmanager->string_exists('days', 'calendartype_thaibuddhist')) {
+        if (!self::$days && $stringmanager->string_exists('days', 'calendartype_thaibuddhist')) {
             $days = explode(';', get_string('days', 'calendartype_thaibuddhist'));
-            if(count($days) == 7) {
+            if (count($days) == 7) {
                 self::$days = $days;
             }
         }
-        if(!self::$shortdays && $stringmanager->string_exists('shortdays', 'calendartype_thaibuddhist')) {
+        if (!self::$shortdays && $stringmanager->string_exists('shortdays', 'calendartype_thaibuddhist')) {
             $shortdays = explode(';', get_string('shortdays', 'calendartype_thaibuddhist'));
-            if(count($shortdays) == 7) {
+            if (count($shortdays) == 7) {
                 self::$shortdays = $shortdays;
             }
         }
@@ -339,13 +384,13 @@ class structure extends type_base {
         if (empty($format)) {
             $format = get_string('strftimedaydatetime', 'langconfig');
 
-            if(get_config('calendartype_thaibuddhist', 'force24h')) {
+            if (get_config('calendartype_thaibuddhist', 'force24h')) {
                 $format = str_replace('%I:%M', '%H:%M', $format);
                 $format = str_replace('%p', '', $format);
             }
         }
 
-        if(get_config('calendartype_thaibuddhist', 'rewritethaiformat') && current_language() == 'th') {
+        if (get_config('calendartype_thaibuddhist', 'rewritethaiformat') && current_language() == 'th') {
             $format = str_replace('%A,', '', $format);
             $format = str_replace('%a,', '', $format);
             $format = str_replace('%d%b', '%d %b', $format);
@@ -359,16 +404,16 @@ class structure extends type_base {
             }
         }
 
-        if(self::$months) {
+        if (self::$months) {
             $format = str_replace('%B', self::$months[(int)strftime('%m', $time)], $format);
         }
-        if(self::$shortmonths) {
+        if (self::$shortmonths) {
             $format = str_replace('%b', self::$shortmonths[(int)strftime('%m', $time)], $format);
         }
-        if(self::$days) {
+        if (self::$days) {
             $format = str_replace('%A', self::$days[(int)strftime('%w', $time)], $format);
         }
-        if(self::$shortdays) {
+        if (self::$shortdays) {
             $format = str_replace('%a', self::$shortdays[(int)strftime('%w', $time)], $format);
         }
 
@@ -392,15 +437,16 @@ class structure extends type_base {
             $format = $formatnohour;
         }
 
-        if(get_config('calendartype_thaibuddhist', 'displaybe')) {
+        if (get_config('calendartype_thaibuddhist', 'displaybe')) {
+            $year = strftime('%Y', $time) + 543;
+
             $format = str_replace('%Y',
-                get_string('year', 'calendartype_thaibuddhist', strftime('%Y', $time) + 543),
+                get_string('year', 'calendartype_thaibuddhist', $year),
                 $format);
             $format = str_replace('%y',
-                get_string('year', 'calendartype_thaibuddhist', substr(strftime('%Y', $time) + 543, strlen(strftime('%Y', $time) + 543) - 2, 2)),
+                get_string('year', 'calendartype_thaibuddhist', substr($year, strlen($year) - 2, 2)),
                 $format);
-        }
-        else {
+        } else {
             $format = str_replace('%Y', strftime('%Y', $time) + 543, $format);
             $format = str_replace('%y', substr(strftime('%Y', $time) + 543, strlen(strftime('%Y', $time) + 543) - 2, 2), $format);
         }
@@ -434,9 +480,9 @@ class structure extends type_base {
      * @return array an array that represents the date in user time
      */
     public function timestamp_to_date_array($time, $timezone = 99) {
-        $date_array = usergetdate($time, $timezone);
-        $date_array['year'] += 543;
-        return $date_array;
+        $datearray = usergetdate($time, $timezone);
+        $datearray['year'] += 543;
+        return $datearray;
     }
 
     /**
