@@ -383,11 +383,11 @@ class structure extends type_base {
 
         if (empty($format)) {
             $format = get_string('strftimedaydatetime', 'langconfig');
+        }
 
-            if (get_config('calendartype_thaibuddhist', 'force24h')) {
-                $format = str_replace('%I:%M', '%H:%M', $format);
-                $format = str_replace('%p', '', $format);
-            }
+        if (get_config('calendartype_thaibuddhist', 'force24h')) {
+            $format = str_replace('%I:%M', '%H:%M', $format);
+            $format = str_replace('%p', '', $format);
         }
 
         if (get_config('calendartype_thaibuddhist', 'rewritethaiformat') && current_language() == 'th') {
