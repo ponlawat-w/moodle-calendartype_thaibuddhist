@@ -43,6 +43,7 @@ jobs:
         with:
           tag_name: ${{ needs.get-version.outputs.plugin-release }}
           name: ${{ needs.get-version.outputs.plugin-release }}
+          body_path: ./releases/${{ needs.get-version.outputs.plugin-release }}.md
 
   # https://github.com/moodlehq/moodle-plugin-release
   publish:
