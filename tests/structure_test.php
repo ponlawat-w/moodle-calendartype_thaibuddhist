@@ -62,6 +62,7 @@ class structure_test extends \advanced_testcase {
      * @covers \calendartype_thaibuddhist\structure::get_name
      */
     public function test_get_name() {
+        $this->resetAfterTest(true);
         $this->inituserwithtimezone('Asia/Bangkok');
         $this->assertEquals('thaibuddhist', $this->get_calendar()->get_name());
     }
