@@ -30,7 +30,7 @@ namespace calendartype_thaibuddhist;
 class structure_test extends \advanced_testcase {
 
     protected function setUp(): void {
-        \core_date::set_default_server_timezone('Etc/UTC');
+        $this->setTimezone('Etc/UTC', 'Etc/UTC');
     }
 
     /**
