@@ -74,19 +74,19 @@ class structure_test extends \advanced_testcase {
     public function test_timestamp_to_date_string() {
         $this->resetAfterTest(true);
 
-        $betweentimezone_timestamp = 1704056400;
+        $newyeartimestamp = 1704056400;
 
         $this->inituserwithtimezone(99);
         $this->assertEquals('2566', userdate(1672531200, '%Y'), 'Full BE year on UTC timezone');
         $this->assertEquals('65', userdate(1672531199, '%y'), 'Half BE year on UTC timezone');
-        $this->assertEquals('2566', userdate($betweentimezone_timestamp, '%Y'), 'Full BE year on UTC timezone');
-        
+        $this->assertEquals('2566', userdate($newyeartimestamp, '%Y'), 'Full BE year on UTC timezone');
+
         $this->inituserwithtimezone('Asia/Bangkok');
         $this->assertEquals('2566', userdate(1704041999, '%Y'), 'Full BE year on local timezone');
         $this->assertEquals('2567', userdate(1704042000, '%Y'), 'Full BE year on local timezone');
         $this->assertEquals('67', userdate(1704045600, '%y'), 'Half BE year on local timezone');
         $this->assertEquals('67', userdate(1704067200, '%y'), 'Half BE year on local timezone');
-        $this->assertEquals('2567', userdate($betweentimezone_timestamp, '%Y'), 'Full BE year on local timezone');
+        $this->assertEquals('2567', userdate($newyeartimestamp, '%Y'), 'Full BE year on local timezone');
     }
 
     /**
