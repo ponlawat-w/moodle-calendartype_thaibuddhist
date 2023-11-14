@@ -28,6 +28,11 @@ namespace calendartype_thaibuddhist;
  * Calendar type unit tests
  */
 class structure_test extends \advanced_testcase {
+
+    protected function setUp(): void {
+        \core_date::set_default_server_timezone('Etc/UTC');
+    }
+
     /**
      * Initialise a user with specific timezone
      *
@@ -57,6 +62,7 @@ class structure_test extends \advanced_testcase {
      * @covers \calendartype_thaibuddhist\structure::get_name
      */
     public function test_get_name() {
+        $this->inituserwithtimezone('Asia/Bangkok');
         $this->assertEquals('thaibuddhist', $this->get_calendar()->get_name());
     }
 
@@ -65,16 +71,13 @@ class structure_test extends \advanced_testcase {
      * @covers \calendartype_thaibuddhist\structure::test_timestamp_to_date_string
      */
     public function test_timestamp_to_date_string() {
-        global $USER;
         $this->resetAfterTest(true);
 
         $this->inituserwithtimezone(99);
-        echo $USER->id . '=>' . $USER->timezone . '=>';
         $this->assertEquals('2566', userdate(1672531200, '%Y'), 'Full BE year on UTC timezone');
         $this->assertEquals('65', userdate(1672531199, '%y'), 'Half BE year on UTC timezone');
 
         $this->inituserwithtimezone('Asia/Bangkok');
-        echo $USER->id . '=>' . $USER->timezone . '=>';
         $this->assertEquals('2566', userdate(1704041999, '%Y'), 'Full BE year on local timezone');
         $this->assertEquals('2567', userdate(1704042000, '%Y'), 'Full BE year on local timezone');
         $this->assertEquals('67', userdate(1704045600, '%y'), 'Half BE year on local timezone');

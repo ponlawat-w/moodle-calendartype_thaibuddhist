@@ -91,7 +91,6 @@ class structure extends \calendartype_gregorian\structure {
      * @return string the formatted date/time
      */
     public function timestamp_to_date_string($time, $format, $timezone, $fixday, $fixhour) {
-        echo \core_date::get_user_timezone($timezone);
         date_default_timezone_set(\core_date::get_user_timezone($timezone));
 
         $year = date('Y', $time) + 543;
