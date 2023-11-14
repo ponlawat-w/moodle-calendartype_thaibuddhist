@@ -76,14 +76,14 @@ class structure_test extends \advanced_testcase {
      */
     public function test_timestamp_to_date_string() {
         $this->setusertimezone(99);
-        $this->assertEquals('2566', userdate(mktime(0, 0, 0, 1, 1, 2023), '%Y'), 'Full BE year on UTC timezone');
-        $this->assertEquals('65', userdate(mktime(23, 59, 59, 12, 31, 2022), '%y'), 'Half BE year on UTC timezone');
+        $this->assertEquals('2566', userdate(1672531200, '%Y'), 'Full BE year on UTC timezone');
+        $this->assertEquals('65', userdate(1672531199, '%y'), 'Half BE year on UTC timezone');
 
         $this->setusertimezone('Asia/Bangkok');
-        $this->assertEquals('2566', userdate(mktime(16, 59, 59, 12, 31, 2023), '%Y'), 'Full BE year on local timezone');
-        $this->assertEquals('2567', userdate(mktime(17, 0, 0, 12, 31, 2023), '%Y'), 'Full BE year on local timezone');
-        $this->assertEquals('67', userdate(mktime(18, 0, 0, 12, 31, 2023), '%y'), 'Half BE year on local timezone');
-        $this->assertEquals('67', userdate(mktime(0, 0, 0, 1, 1, 2024), '%y'), 'Half BE year on local timezone');
+        $this->assertEquals('2566', userdate(1704041999, '%Y'), 'Full BE year on local timezone');
+        $this->assertEquals('2567', userdate(1704042000, '%Y'), 'Full BE year on local timezone');
+        $this->assertEquals('67', userdate(1704045600, '%y'), 'Half BE year on local timezone');
+        $this->assertEquals('67', userdate(1704067200, '%y'), 'Half BE year on local timezone');
     }
 
     /**
@@ -96,14 +96,14 @@ class structure_test extends \advanced_testcase {
         $calendar = $this->get_calendar();
 
         $this->setusertimezone(99);
-        $timestamp = mktime(0, 0, 0, 1, 3, 2023);
+        $timestamp = 1672704000;
         $date = $calendar->timestamp_to_date_array($timestamp, $USER->timezone);
         $this->assertEquals('1', $date['mday']);
         $this->assertEquals('3', $date['mon']);
         $this->assertEquals('2566', $date['year']);
 
         $this->setusertimezone('Asia/Bangkok');
-        $timestamp = mktime(18, 0, 0, 12, 31, 2023);
+        $timestamp = 1704045600;
         $date = $calendar->timestamp_to_date_array($timestamp, $USER->timezone);
         $this->assertEquals('1', $date['hours']);
         $this->assertEquals('0', $date['minutes']);
