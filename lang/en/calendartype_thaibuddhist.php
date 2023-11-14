@@ -24,18 +24,3 @@
 
 $string['name'] = 'Thai Buddhist';
 $string['pluginname'] = 'Thai Buddhist Calendar Type';
-
-$string['months'] = '';
-$string['shortmonths'] = '';
-$string['days'] = '';
-$string['shortdays'] = '';
-
-$string['time'] = '{$a}';
-$string['year'] = '{$a}BE';
-
-$string['setting_rewritethaiformat'] = 'Overwrite format in Thai language';
-$string['setting_rewritethaiformat_description'] = 'Overwrite date and time format in Thai language, which is originally configured in core_langconfig.';
-$string['setting_force24h'] = 'Force using 24-hour system';
-$string['setting_force24h_description'] = 'Force the entire site to use 24-hour time system';
-$string['setting_displaybe'] = 'Display BE';
-$string['setting_displaybe_description'] = 'Display "BE" (Buddhist Era) (e.g. 2559BE)';
