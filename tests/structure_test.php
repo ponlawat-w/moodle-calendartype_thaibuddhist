@@ -29,28 +29,18 @@ namespace calendartype_thaibuddhist;
  */
 class structure_test extends \advanced_testcase {
     /**
-     * Setup
-     *
-     * @return void
-     */
-    protected function setUp(): void {
-        $this->resetAfterTest(true);
-
-        $this->setUser(
-            $this->getDataGenerator()->create_user(['calendartype' => 'thaibuddhist'])
-        );
-    }
-
-    /**
-     * Set user's timezone
+     * Initialise a user with specific timezone
      *
      * @param string|int $timezone
      * @return void
      */
-    private function setusertimezone($timezone) {
-        global $USER;
-        $USER->timezone = $timezone;
-        $this->setUser($USER);
+    private function inituserwithtimezone($timezone) {
+        $this->setUser(
+            $this->getDataGenerator()->create_user([
+                'calendartype' => 'thaibuddhist',
+                'timezone' => $timezone
+            ])
+        );
     }
 
     /**
@@ -75,11 +65,13 @@ class structure_test extends \advanced_testcase {
      * @covers \calendartype_thaibuddhist\structure::test_timestamp_to_date_string
      */
     public function test_timestamp_to_date_string() {
-        $this->setusertimezone(99);
+        $this->resetAfterTest(true);
+
+        $this->inituserwithtimezone(99);
         $this->assertEquals('2566', userdate(1672531200, '%Y'), 'Full BE year on UTC timezone');
         $this->assertEquals('65', userdate(1672531199, '%y'), 'Half BE year on UTC timezone');
 
-        $this->setusertimezone('Asia/Bangkok');
+        $this->inituserwithtimezone('Asia/Bangkok');
         $this->assertEquals('2566', userdate(1704041999, '%Y'), 'Full BE year on local timezone');
         $this->assertEquals('2567', userdate(1704042000, '%Y'), 'Full BE year on local timezone');
         $this->assertEquals('67', userdate(1704045600, '%y'), 'Half BE year on local timezone');
@@ -93,16 +85,18 @@ class structure_test extends \advanced_testcase {
     public function test_timestamp_to_date_array() {
         global $USER;
 
+        $this->resetAfterTest(true);
+
         $calendar = $this->get_calendar();
 
-        $this->setusertimezone(99);
+        $this->inituserwithtimezone(99);
         $timestamp = 1672704000;
         $date = $calendar->timestamp_to_date_array($timestamp, $USER->timezone);
-        $this->assertEquals('1', $date['mday']);
-        $this->assertEquals('3', $date['mon']);
+        $this->assertEquals('3', $date['mday']);
+        $this->assertEquals('1', $date['mon']);
         $this->assertEquals('2566', $date['year']);
 
-        $this->setusertimezone('Asia/Bangkok');
+        $this->inituserwithtimezone('Asia/Bangkok');
         $timestamp = 1704045600;
         $date = $calendar->timestamp_to_date_array($timestamp, $USER->timezone);
         $this->assertEquals('1', $date['hours']);
@@ -129,8 +123,8 @@ class structure_test extends \advanced_testcase {
      * @covers \calendartype_thaibuddhist\structure::test_convert_to_gregorian
      */
     public function test_convert_to_gregorian() {
-        $gregorian = $this->get_calendar()->convert_to_gregorian(2024, 1, 1, 0, 0);
-        $this->assertEquals('2567', $gregorian['year']);
+        $gregorian = $this->get_calendar()->convert_to_gregorian(2567, 1, 1, 0, 0);
+        $this->assertEquals('2024', $gregorian['year']);
         $this->assertEquals('1', $gregorian['month']);
         $this->assertEquals('1', $gregorian['day']);
     }

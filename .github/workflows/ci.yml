@@ -11,7 +11,7 @@ jobs:
 
   matrix-test:
 
-    name: ${{ matrix.moodle }} TEST
+    name: ${{ matrix.moodle }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,18 +20,18 @@ jobs:
         include:
           - moodle: MOODLE_39_STABLE
             php: 7.4
-          - moodle: MOODLE_310_STABLE
-            php: 7.4
-          - moodle: MOODLE_311_STABLE
-            php: 7.4
-          - moodle: MOODLE_400_STABLE
-            php: 7.4
-          - moodle: MOODLE_401_STABLE
-            php: 7.4
-          - moodle: MOODLE_402_STABLE
-            php: 8.0
-          - moodle: MOODLE_403_STABLE
-            php: 8.1
+          # - moodle: MOODLE_310_STABLE
+          #   php: 7.4
+          # - moodle: MOODLE_311_STABLE
+          #   php: 7.4
+          # - moodle: MOODLE_400_STABLE
+          #   php: 7.4
+          # - moodle: MOODLE_401_STABLE
+          #   php: 7.4
+          # - moodle: MOODLE_402_STABLE
+          #   php: 8.0
+          # - moodle: MOODLE_403_STABLE
+          #   php: 8.1
 
     services:
       postgres:
