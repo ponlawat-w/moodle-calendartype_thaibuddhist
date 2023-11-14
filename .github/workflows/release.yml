@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.name "ponlawat-w"
           git config --global user.email "ponlawat_w@outlook.co.th"
-          git tag -fa ${{ needs.get-version.outputs.plugin-release }} -m $(cat ./CHANGES.md)
+          git tag -fa ${{ needs.get-version.outputs.plugin-release }} -F ./CHANGES.md
           git push --force origin ${{ needs.get-version.outputs.plugin-release }}
       - name: Release
         uses: softprops/action-gh-release@v1
