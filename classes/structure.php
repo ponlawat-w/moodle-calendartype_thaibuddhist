@@ -71,7 +71,7 @@ class structure extends \calendartype_gregorian\structure {
      * Returns a formatted string that represents a date in user time.
      *
      * Returns a formatted string that represents a date in user time
-     * <b>WARNING: note that the format is for date(), not date().</b>
+     * <b>WARNING: note that the format is for strftime(), not date().</b>
      * Because of a bug in most Windows time libraries, we can't use
      * the nicer %e, so we have to use %d which has leading zeroes.
      * A lot of the fuss in the function is just getting rid of these leading
@@ -81,7 +81,7 @@ class structure extends \calendartype_gregorian\structure {
      * zero from %d, else maintain it.
      *
      * @param int $time the timestamp in UTC, as obtained from the database
-     * @param string $format date format
+     * @param string $format strftime format
      * @param int|float|string $timezone the timezone to use
      *        {@link http://docs.moodle.org/dev/Time_API#Timezone}
      * @param bool $fixday if true then the leading zero from %d is removed,
